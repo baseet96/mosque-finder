@@ -4,6 +4,7 @@ import { Button, Typography, TextField, Grid, Paper, Container, Box } from '@mui
 import CurrentLocation from './components/CurrentLocation';
 import { useState } from 'react';
 import NearbyPlaces from './components/NearbyPlaces';
+import HelloWorld from './components/HelloWorld';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <div>
+      <HelloWorld/>
       <Container>
         <Box padding={5} align="center">
         <Typography variant="h3">Mosque Finder</Typography>

@@ -4,6 +4,11 @@ function CurrentLocation() {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
 
+  // userEffect - 
+  // useState 
+
+  // ngonit - angular
+
   useEffect(() => {
     const getLocation = () => {
       if (navigator.geolocation) {
