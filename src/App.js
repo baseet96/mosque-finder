@@ -4,6 +4,7 @@ import { Button, Typography, TextField, Container, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import NearbyPlaces from "./components/NearbyPlaces";
 import { getLocation } from "./utils/location";
+import AutocompleteComponent from "./components/AutocompleteComponent";
 
 function App() {
   const [location, setLocation] = useState(null);
@@ -33,6 +34,12 @@ function App() {
           <Button variant="contained" color="primary" onClick={handleClick}>
             Search
           </Button>
+        </Box>
+      </Container>
+
+      <Container>
+        <Box>
+          <AutocompleteComponent />
         </Box>
       </Container>
 

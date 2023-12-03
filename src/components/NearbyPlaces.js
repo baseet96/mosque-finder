@@ -16,7 +16,7 @@ const NearbyPlaces = (prop) => {
           setError(error.message);
         });
     }
-  }, []);
+  }, [prop.location]);
 
   return (
     <div>
