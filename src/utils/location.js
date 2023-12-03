@@ -1,5 +1,4 @@
 export const getLocation = (setLocation, setError) => {
-  const location = null;
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
