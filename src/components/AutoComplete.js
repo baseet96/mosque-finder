@@ -5,7 +5,7 @@ const AutoComplete = () => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
   const options = {
-    componentRestrictions: { country: "ng" },
+    componentRestrictions: { country: "us" },
     fields: ["address_components", "geometry", "icon", "name"],
     types: ["establishment"],
   };
@@ -18,6 +18,10 @@ const AutoComplete = () => {
       const place = await autoCompleteRef.current.getPlace();
       console.log({ place });
       console.log(place.name);
+
+      const { lat, lng } = place.geometry.location;
+      console.log("Latitude:", lat());
+      console.log("Longitude:", lng());
     });
   }, []);
   return (
