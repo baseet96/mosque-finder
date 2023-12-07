@@ -4,7 +4,7 @@ import { Button, Typography, TextField, Container, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import NearbyPlaces from "./components/NearbyPlaces";
 import { getLocation } from "./utils/location";
-import AutocompleteComponent from "./components/AutocompleteComponent";
+import AutoComplete from "./components/AutoComplete";
 
 function App() {
   const [location, setLocation] = useState(null);
@@ -39,7 +39,7 @@ function App() {
 
       <Container>
         <Box>
-          <AutocompleteComponent />
+          <AutoComplete />
         </Box>
       </Container>
 
