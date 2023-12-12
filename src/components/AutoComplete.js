@@ -1,14 +1,40 @@
-import { useRef, useEffect } from "react";
-import { TextField } from "@mui/material";
+import { useRef, useEffect, useState } from "react";
+import { TextField, Button, Box, Container } from "@mui/material";
+import getCurrentLocation from "../utils/location";
+import NearbyPlaces from "./NearbyPlaces";
 
 const AutoComplete = () => {
+  const [location, setLocation] = useState(null);
+  const [error, setError] = useState(null);
+
   const autoCompleteRef = useRef();
   const inputRef = useRef();
+
   const options = {
     componentRestrictions: { country: "us" },
-    fields: ["address_components", "geometry", "icon", "name"],
+    fields: ["address_components", "geometry", "name"],
     types: ["establishment"],
   };
+
+  const handleSuccess = ({ latitude, longitude }) => {
+    inputRef.current.value = null;
+    setLocation({ latitude, longitude });
+
+    // Optionally, trigger the place_changed event manually
+    // Trigger a simulated input event to mimic user input
+    const event = new Event("input", { bubbles: true });
+    inputRef.current.dispatchEvent(event);
+  };
+
+  const handleError = (errorMessage) => {
+    setError("Error getting current location: " + errorMessage);
+    console.error("Error getting current location:", errorMessage);
+  };
+
+  const getCurrentLocationHandler = () => {
+    getCurrentLocation(handleSuccess, handleError);
+  };
+
   useEffect(() => {
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
       inputRef.current,
@@ -16,17 +42,26 @@ const AutoComplete = () => {
     );
     autoCompleteRef.current.addListener("place_changed", async () => {
       const place = await autoCompleteRef.current.getPlace();
-      console.log({ place });
-      console.log(place.name);
-
-      const { lat, lng } = place.geometry.location;
-      console.log("Latitude:", lat());
-      console.log("Longitude:", lng());
+      const latitude = place.geometry.location.lat();
+      const longitude = place.geometry.location.lng();
+      setLocation({ latitude, longitude });
     });
   }, []);
   return (
     <>
-      <TextField inputRef={inputRef} label="Enter a location" />
+      <Container>
+        <Box display="flex" justifyContent="center">
+          <TextField inputRef={inputRef} label="Enter a location" />
+          <Button
+            onClick={getCurrentLocationHandler}
+            variant="contained"
+            color="primary"
+          >
+            Current Location
+          </Button>
+        </Box>
+        {location && <NearbyPlaces location={location} error={error} />}
+      </Container>
     </>
   );
 };

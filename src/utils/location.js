@@ -1,15 +1,16 @@
-export const getLocation = (setLocation, setError) => {
+const getCurrentLocation = (successCallback, errorCallback) => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setLocation({ latitude, longitude });
+        successCallback({ latitude, longitude });
       },
       (error) => {
-        setError(error.message);
+        errorCallback(error.message);
       }
     );
   } else {
-    setError("Geolocation is not supported by your browser");
+    errorCallback("Geolocation is not supported by your browser");
   }
 };
+export default getCurrentLocation;

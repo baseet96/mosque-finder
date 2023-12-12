@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { searchNearby } from "../services/searchNearby";
 
-const NearbyPlaces = (prop) => {
+const NearbyPlaces = (props) => {
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
-  const [error, setError] = useState(prop.error);
+  const [error, setError] = useState(props.error);
 
   useEffect(() => {
-    if (prop.location) {
-      const data = searchNearby(prop.location);
+    if (props.location) {
+      const data = searchNearby(props.location);
       data
         .then((result) => {
           setNearbyPlaces(result.places);
@@ -16,17 +16,15 @@ const NearbyPlaces = (prop) => {
           setError(error.message);
         });
     }
-  }, [prop.location]);
+  }, [props.location]);
 
   return (
-    <div>
-      <h1>Nearby Places</h1>
+    <>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {prop.location && (
+      {props.location && (
         <div>
-          <h2>Selected Coordinates:</h2>
-          <p>Latitude: {prop.location.latitude}</p>
-          <p>Longitude: {prop.location.longitude}</p>
+          <p>Latitude: {props.location.latitude}</p>
+          <p>Longitude: {props.location.longitude}</p>
         </div>
       )}
       <ul>
@@ -36,7 +34,7 @@ const NearbyPlaces = (prop) => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 
