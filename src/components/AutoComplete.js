@@ -6,23 +6,25 @@ import NearbyPlaces from "./NearbyPlaces";
 const AutoComplete = () => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
+  const [name, setName] = useState(null);
 
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
   const options = {
-    componentRestrictions: { country: "us" },
+    // componentRestrictions: { country: ["us", "pk"] },
     fields: ["address_components", "geometry", "name"],
-    types: ["establishment"],
+    types: ["establishment", "geocode"],
   };
 
   const handleSuccess = ({ latitude, longitude }) => {
     inputRef.current.value = null;
     setLocation({ latitude, longitude });
+    setName("Current Location");
 
     // Optionally, trigger the place_changed event manually
     // Trigger a simulated input event to mimic user input
-    const event = new Event("input", { bubbles: true });
+    const event = new Event("place_changed", { bubbles: true });
     inputRef.current.dispatchEvent(event);
   };
 
@@ -45,12 +47,18 @@ const AutoComplete = () => {
       const latitude = place.geometry.location.lat();
       const longitude = place.geometry.location.lng();
       setLocation({ latitude, longitude });
+      setName(place.name);
     });
   }, []);
   return (
     <>
       <Container>
-        <Box display="flex" justifyContent="center">
+        <Box
+          sx={{
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
           <TextField inputRef={inputRef} label="Enter a location" />
           <Button
             onClick={getCurrentLocationHandler}
@@ -60,7 +68,9 @@ const AutoComplete = () => {
             Current Location
           </Button>
         </Box>
-        {location && <NearbyPlaces location={location} error={error} />}
+        {location && (
+          <NearbyPlaces name={name} location={location} error={error} />
+        )}
       </Container>
     </>
   );
