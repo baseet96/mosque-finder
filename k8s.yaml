@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mosque-finder-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mosque-finder-app
+  template:
+    metadata:
+      labels:
+        app: mosque-finder-app
+    spec:
+      containers:
+        - name: mosque-finder-container
+          image: 563781807202.dkr.ecr.us-east-2.amazonaws.com/mosque-finder:basit
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mosque-finder-service
+spec:
+  selector:
+    app: mosque-finder-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
