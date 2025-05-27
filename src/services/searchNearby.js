@@ -1,4 +1,4 @@
-const apiKey = "AIzaSyDuW0L1Hn8dUyn3tkWSr4LcvrfFRgXlqW0";
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 export const searchNearby = async (location) => {
   try {
