@@ -18,7 +18,8 @@ const AutoComplete = () => {
   };
 
   const handleSuccess = ({ latitude, longitude }) => {
-    inputRef.current.value = null;
+    const locationString = `Lat: ${latitude}, Lng: ${longitude}`;
+    inputRef.current.value = locationString;
     setLocation({ latitude, longitude });
     setName("Current Location");
 

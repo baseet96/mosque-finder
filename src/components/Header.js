@@ -1,11 +1,13 @@
 import { Typography, Container, Box } from "@mui/material";
 
-function Header(props) {
+function Header() {
+  const header = "Mosque Finder";
+
   return (
     <>
       <Container>
         <Box padding={5} align="center">
-          <Typography variant="h3">{props.header}</Typography>
+          <Typography variant="h3">{header}</Typography>
         </Box>
       </Container>
     </>
