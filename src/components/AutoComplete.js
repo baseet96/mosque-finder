@@ -50,7 +50,7 @@ const AutoComplete = () => {
       setLocation({ latitude, longitude });
       setName(place.name);
     });
-  }, []);
+  }, [options]);
   return (
     <>
       <Container>
