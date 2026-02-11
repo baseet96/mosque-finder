@@ -1,4 +1,4 @@
-const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+import { GOOGLE_API_KEY, SEARCH_CONFIG } from '../config/constants';
 
 export const searchNearby = async (location) => {
   try {
@@ -8,30 +8,33 @@ export const searchNearby = async (location) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Goog-Api-Key": apiKey,
-          "X-Goog-FieldMask": "places.displayName,places.formattedAddress",
+          "X-Goog-Api-Key": GOOGLE_API_KEY,
+          "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.photos,places.rating,places.userRatingCount",
         },
         body: JSON.stringify({
-          includedTypes: ["mosque"],
-          maxResultCount: 10,
+          includedTypes: SEARCH_CONFIG.includedTypes,
+          maxResultCount: SEARCH_CONFIG.maxResultCount,
           locationRestriction: {
             circle: {
               center: {
                 latitude: location.latitude,
                 longitude: location.longitude,
               },
-              radius: 10000,
+              radius: SEARCH_CONFIG.searchRadius,
             },
           },
         }),
       }
     );
+    
     if (!response.ok) {
-      throw new Error("Failed to fetch nearby places");
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error?.message || "Failed to fetch nearby places");
     }
-    const data = await response.json();
-    return data;
+    
+    return await response.json();
   } catch (error) {
-    throw error; // Rethrow the error to be caught by the calling code
+    console.error("Search nearby error:", error);
+    throw error;
   }
 };
